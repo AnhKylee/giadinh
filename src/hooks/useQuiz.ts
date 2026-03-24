@@ -42,32 +42,62 @@ export function useQuiz() {
     { A: 0, B: 0, C: 0, D: 0 },
   );
 
-  const sortedScores = Object.entries(scoreCounts).sort((a, b) => b[1] - a[1]);
+  const sortedScores = Object.entries(scoreCounts).sort(
+    (a, b) => b[1] - a[1],
+  ) as [FamilyTypeKey, number][];
   const topKey = sortedScores[0]?.[0] as FamilyTypeKey;
+
+  if (!topKey || !FAMILY_TYPES[topKey]) {
+    throw new Error("Invalid topKey");
+  }
+
   const topType = FAMILY_TYPES[topKey];
 
   // Per-section results
   const sectionResults = SECTIONS.map((s) => {
-    const sc: Record<string, number> = { A: 0, B: 0, C: 0, D: 0 };
+    const sc: Record<FamilyTypeKey, number> = { A: 0, B: 0, C: 0, D: 0 };
+
     const offset = SECTIONS.slice(0, s.id - 1).reduce(
       (a, x) => a + x.questions.length,
       0,
     );
+
     s.questions.forEach((_, i) => {
       const v = answers[offset + i];
       if (v) sc[v]++;
     });
-    const best = Object.entries(sc).sort(
-      (a, b) => b[1] - a[1],
-    )[0][0] as FamilyTypeKey;
-    return { ...s, best, bestType: FAMILY_TYPES[best], score: sc };
+
+    const bestEntry = Object.entries(sc).sort((a, b) => b[1] - a[1])[0];
+
+    if (!bestEntry) {
+      throw new Error("No best score found");
+    }
+
+    const best = bestEntry[0] as FamilyTypeKey;
+    const bestType = FAMILY_TYPES[best];
+
+    if (!bestType) {
+      throw new Error(`Invalid FamilyTypeKey: ${best}`);
+    }
+
+    return {
+      ...s,
+      best,
+      bestType,
+      score: sc,
+    };
   });
 
   const progress = Math.round(((qIndex + 1) / TOTAL_QUESTIONS) * 100);
   const currentQuestion = ALL_QUESTIONS[qIndex];
-  const currentSection = SECTIONS.find(
-    (s) => s.id === currentQuestion?.sectionId,
-  )!;
+
+  const currentSection = currentQuestion
+    ? SECTIONS.find((s) => s.id === currentQuestion.sectionId)
+    : undefined;
+
+  if (currentQuestion && !currentSection) {
+    throw new Error("Section not found for question");
+  }
 
   return {
     screen,

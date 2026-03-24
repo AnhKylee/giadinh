@@ -109,7 +109,7 @@ export default function ResultScreen({
               sx={{ mb: 3 }}
             >
               {sortedScores.map(([key, count]) => {
-                const t = FAMILY_TYPES[key];
+                const t = FAMILY_TYPES[key as FamilyTypeKey];
                 const pct = Math.round((count / totalQuestions) * 100);
                 return (
                   <Box key={key} sx={{ textAlign: "center", minWidth: 56 }}>

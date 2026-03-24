@@ -17,7 +17,7 @@ interface Props {
   qIndex: number;
   total: number;
   progress: number;
-  savedAnswer?: FamilyTypeKey;
+  savedAnswer: FamilyTypeKey | undefined;
   onAnswer: (index: number, value: FamilyTypeKey) => void;
 }
 

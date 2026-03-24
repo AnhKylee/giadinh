@@ -10,7 +10,8 @@
     "paths": {
       "@/*": ["./src/*"]
     },
-    "module": "nodenext",
+    "module": "esnext",
+    // "ignoreDeprecations": "6.0",
     "target": "esnext",
     "types": [],
     // For nodejs:
@@ -34,7 +35,7 @@
     // Recommended Options
     "strict": true,
     "jsx": "react-jsx",
-    "verbatimModuleSyntax": true,
+    "verbatimModuleSyntax": false,
     "isolatedModules": true,
     "noUncheckedSideEffectImports": true,
     "moduleDetection": "force",
@@ -44,7 +45,7 @@
     "noEmit": true,
     "incremental": true,
     "esModuleInterop": true,
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "plugins": [
       {

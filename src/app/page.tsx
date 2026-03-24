@@ -12,18 +12,20 @@ export default function Home() {
   return (
     <>
       {quiz.screen === "welcome" && <WelcomeScreen onStart={quiz.start} />}
-      {quiz.screen === "quiz" && (
-        <QuestionScreen
-          key={quiz.qIndex}
-          question={quiz.currentQuestion}
-          section={quiz.currentSection}
-          qIndex={quiz.qIndex}
-          total={quiz.totalQuestions}
-          progress={quiz.progress}
-          savedAnswer={quiz.answers[quiz.qIndex]}
-          onAnswer={quiz.answer}
-        />
-      )}
+      {quiz.screen === "quiz" &&
+        quiz.currentQuestion &&
+        quiz.currentSection && (
+          <QuestionScreen
+            key={quiz.qIndex}
+            question={quiz.currentQuestion}
+            section={quiz.currentSection}
+            qIndex={quiz.qIndex}
+            total={quiz.totalQuestions}
+            progress={quiz.progress}
+            savedAnswer={quiz.answers[quiz.qIndex]}
+            onAnswer={quiz.answer}
+          />
+        )}
       {quiz.screen === "result" && (
         <ResultScreen
           topType={quiz.topType}

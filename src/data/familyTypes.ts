@@ -1,6 +1,6 @@
-import { FamilyType } from "@/types";
+import { FamilyType, FamilyTypeKey } from "@/types";
 
-export const FAMILY_TYPES: Record<string, FamilyType> = {
+export const FAMILY_TYPES: Record<FamilyTypeKey, FamilyType> = {
   A: {
     key: "A",
     label: "Gắn Kết",
